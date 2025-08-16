@@ -3,11 +3,11 @@
 //import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './pages/Login';
-import ListHangHoa from './pages/HangHoa/ListHangHoa';
-import FormNhapHang from './pages/NhapHang/FormNhapHang';
-import AddHangHoa from './pages/HangHoa/AddHangHoa';
-import FormBanHang from './pages/BanHang/FormBanHang';
+import Login from './Auth/Login';
+import ListHangHoa from './HangHoa/ListHangHoa';
+import FormNhapHang from './NhapHang/FormNhapHang';
+import AddHangHoa from './HangHoa/AddHangHoa';
+import FormBanHang from './BanHang/FormBanHang';
 import { useState } from 'react';
 
 

@@ -1,51 +1,10 @@
 import { Paper } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
-
-function DanhSachPhieu() {
-    const [lines, setLines] = useState([]);
-
-    function addLine () {
-        setLines([...lines, {id: lines.length+1}]);
-    }
-
-    return (
-        <>
-        <h3>Thêm hàng hóa vào phiếu</h3>
-        <table>
-            <thead>
-                <tr><th>STT</th>
-                    <th>Mã HH</th>
-                    <th>Tên HH</th>
-                    <th>Số lô</th>
-                    <th>Hạn sử dụng</th>
-                    <th>Đơn vị tính</th>
-                    <th>Số lượng</th>
-                    <th>Đơn giá nhập</th>
-                    <th>Thành tiền</th>
-                    <th><Button variant='contained' onClick={addLine}>+</Button></th>
-                </tr>
-                </thead>
-                <tbody>
-                    {lines.map((line, index) => 
-                    <tr key={index+1}>
-                        <td>{index+1}</td>
-                        <td>{line.maHH}</td>
-                        <td></td>
-                        <td><TextField variant='standard' /></td>
-                        <td><TextField variant='standard' type='date' /></td>
-                        <td>{line.donViTinh}</td>
-                        <td><TextField variant='standard' /></td>
-                        <td><TextField variant='standard' /></td>
-                        <td></td>
-                        <td><Button onClick={() => {setLines(lines.filter(a => a !== line))}}>Delete</Button></td></tr>
-                    )}
-                </tbody>
-            </table>
-        </>
-    )
-}
+import PhieuItems from '../components/PhieuItems';
 
 function FormNhapHang() {
     const [supplierId, setSupplier] = useState();
@@ -75,9 +34,8 @@ function FormNhapHang() {
     }
     return (
         <>
-            <h1>Thêm phiếu nhập hàng</h1>
-            
-                <form onSubmit={handleSubmit} autoComplete="off" >   
+            <h1>Thêm phiếu nhập hàng</h1>  
+                <form>
                     <div>
                         <TextField
                         required
@@ -116,16 +74,13 @@ function FormNhapHang() {
                     </div>
                     
                     <div>
-                        <DanhSachPhieu />
+                        <PhieuItems lines={items} setLines={setItems}/>
                     </div>
-
-                    <div>                    
+                  
                     <Button>Hủy</Button>
-                    <Button variant="contained">Hoàn thành</Button>
-                    </div>
-                </form> 
-            
-            
+                    <Button variant="contained" type="submit">Hoàn thành</Button>
+                </form>
+            <button onClick={() => {console.log(items)}}>See what in lines ha</button>
         </>
         
     )

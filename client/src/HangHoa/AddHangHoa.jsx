@@ -13,8 +13,8 @@ import axios from 'axios';
 function AddHangHoa() {
     const [tenHH, setTenHH] = useState("");
     const [loaiHH, setLoaiHH] = useState("");
-    const [soDangKy, setSoDangKy] = useState();
-    const [nhaSanXuat, setNhaSanXuat] = useState();
+    const [soDangKy, setSoDangKy] = useState('');
+    const [nhaSanXuat, setNhaSanXuat] = useState('');
     const [quyCach, setQuyCach] = useState();
     const [donVi, setDonVi] = useState();
     const [giaBan, setGiaBan] = useState();

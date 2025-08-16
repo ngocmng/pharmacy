@@ -45,6 +45,7 @@ button {
   background-color: #4295d4;
   cursor: pointer;
   transition: border-color 0.25s;
+  
 }
 button:hover {
   border-color: #646cff;
@@ -70,4 +71,8 @@ button:focus-visible {
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
+}
+
+table {
+  margin: 12px;
 }

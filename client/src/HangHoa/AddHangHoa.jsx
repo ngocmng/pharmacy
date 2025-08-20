@@ -33,6 +33,7 @@ function AddHangHoa() {
                 setTenHH("");
                 setLoaiHH("");
                 setMessage("");
+                console.log(response.status);
             } else {
                 setMessage(response.data.message);
             }

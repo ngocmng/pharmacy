@@ -2,6 +2,7 @@ import { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Paper } from "@mui/material";
+import PhieuItems from '../components/PhieuItems';
 
 const FormBanHang = () => {
     const [ngayBan, setNgayBan] = useState();
@@ -11,6 +12,8 @@ const FormBanHang = () => {
     const [tenBacSi, setTenBacSi] = useState();
     const [coSoKhamBenh, setCoSoKhamBenh] = useState();
     const [tenBenhNhan, setTenBenhNhan] = useState();
+
+    const [items, setItems] = useState([]);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -91,6 +94,9 @@ const FormBanHang = () => {
             onChange={e => setTenBenhNhan(e.target.value)}
             />
 
+        </div>
+        <div>
+            <PhieuItems lines={items} setLines={setItems}/>
         </div>
 
         <Button type='reset'>Hủy</Button>

@@ -4,14 +4,16 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 
-function PhieuItemLine ({ line, index, ondelete, handleChange }) {
+function PhieuItemLine ({ line, index, ondelete, handleChange, hanghoas }) {
     //const [line, setLine] = useState({maHH: '', tenHH: '', lotNo: '', hsd: '', donViTinh: '', soLuong: 0, donGiaNhap: 0})
     
     return (
         <tr>
             <td>{index+1}</td>
             <td>{line.maHH}</td>
-            <td></td>
+            <td>
+                {line.tenHH}
+            </td>
             <td><TextField variant='standard' 
                 required
                 value={line.lotNo}

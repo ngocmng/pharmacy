@@ -27,6 +27,14 @@ hanghoaRoutes.post('/add', async (req, res) => {
     }
 })
 
+hanghoaRoutes.get('/', (req, res) => {
+  listHangHoa(res)
+  .catch((err) => {
+      console.error("Overall operation failed:", err);
+      res.json({success: false, message: err.message})
+  });
+})
+
 async function listHangHoa(res) {
     let conn;
     try {
@@ -48,11 +56,5 @@ async function listHangHoa(res) {
     }
 }
 
-hanghoaRoutes.get('/', (req, res) => {
-  listHangHoa(res)
-  .catch((err) => {
-      console.error("Overall operation failed:", err);
-      res.json({success: false, message: err.message})
-  });
-})
+
 export default hanghoaRoutes

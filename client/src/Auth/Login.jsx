@@ -19,6 +19,7 @@ function Login({setLogin}) {
           });
         console.log("response header: "+ response.headers.get("content-type"));
         const data = await response.json();
+        console.log(response.status);
         if (data) {
           setLogin(true);
         } else {

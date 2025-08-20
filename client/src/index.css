@@ -76,3 +76,7 @@ table, th, td {
 table {
   margin: 12px;
 }
+
+.redAsterisk {
+  color: crimson;
+}

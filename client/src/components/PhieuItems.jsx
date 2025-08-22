@@ -4,15 +4,27 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import {TableContainer, Table, TableBody, TableHead, TableFooter, TableRow, TableCell } from '@mui/material';
 import { useEffect, useState } from 'react';
 import PhieuItemLine from './PhieuItemLine';
 
 
 
 function PhieuItems({ lines, setLines }) {
-    const [hanghoas, setHangHoas] = useState([]);
+    const [hanghoas, setHangHoas] = useState([
+        {id: 1, ten: "mèo", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
+        {id: 2, ten: "chó", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
+        {id: 3, ten: "mèo con", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
+        {id: 4, ten: "chó con", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
+    ]);
+    
+    const total = lines.reduce((sum, line) => {
+        //const soLuong = Number(line.soLuong) || 0;
+        //const
+        return sum + line.soLuong * line.donGiaNhap;
+    }, 0);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchHangHoas = async() => {
             try {
                 const response = await fetch("http://localhost:3000/api/hanghoa")
@@ -26,7 +38,7 @@ function PhieuItems({ lines, setLines }) {
         }
 
         fetchHangHoas();
-    }, [])
+    }, [])*/
 
     /*function addLine () {
         setLines([...lines, {id: Date.now(), soLuong: 0, donGiaNhap: 0, tenHH: ''}]);
@@ -52,9 +64,9 @@ function PhieuItems({ lines, setLines }) {
 
     return (
         <>
-        <h3>Thêm hàng hóa vào phiếu</h3>
+        <h4>Thêm hàng hóa vào phiếu</h4>
         <div>
-            <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 600 }}>
+            <FormControl sx={{ minWidth: 300 }}>
                 <InputLabel htmlFor="select-product">
                     Chọn hàng hóa
                 </InputLabel>
@@ -72,29 +84,36 @@ function PhieuItems({ lines, setLines }) {
             
         </div>
         
-        <table>
-            <thead>
-                <tr><th>STT</th>
-                    <th>Mã HH</th>
-                    <th>Tên HH<span className='redAsterisk'>*</span></th>
-                    <th>Số lô<span className='redAsterisk'>*</span></th>
-                    <th>Hạn sử dụng<span className='redAsterisk'>*</span></th>
-                    <th>Đơn vị tính</th>
-                    <th>Số lượng<span className='redAsterisk'>*</span></th>
-                    <th>Đơn giá nhập<span className='redAsterisk'>*</span></th>
-                    <th>Thành tiền</th>
-                    {/*<th><Button variant='contained' onClick={addLine}>+</Button></th>*/}
-                </tr>
-                </thead>
-                <tbody>
+        <Table>
+            <TableHead >
+                <TableRow style={{ fontWeight: 'bold' }}><TableCell>STT</TableCell>
+                    <TableCell>Mã HH</TableCell>
+                    <TableCell>Tên HH<span className='redAsterisk'>*</span></TableCell>
+                    <TableCell>Số lô<span className='redAsterisk'>*</span></TableCell>
+                    <TableCell>Hạn sử dụng<span className='redAsterisk'>*</span></TableCell>
+                    <TableCell>Đơn vị tính</TableCell>
+                    <TableCell>Số lượng<span className='redAsterisk'>*</span></TableCell>
+                    <TableCell>Đơn giá nhập<span className='redAsterisk'>*</span></TableCell>
+                    <TableCell>Thành tiền</TableCell>
+                    
+                    {/*<TableCell><Button variant='contained' onClick={addLine}>+</Button></TableCell>*/}
+                </TableRow>
+                </TableHead>
+                <TableBody>
                     {lines.map((line, index) => 
                         <PhieuItemLine key={line.id} line={line} index={index}
                          ondelete={() => {removeLine(line.id);}} handleChange={handleChange}
                          hanghoas={hanghoas}/>
                     )}
                     
-                </tbody>
-            </table> 
+                </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={8} align='center'>Tổng tiền: </TableCell>
+                        <TableCell>{total.toLocaleString()} đ</TableCell>
+                    </TableRow>
+                </TableFooter>
+            </Table> 
         </>
     )
 }

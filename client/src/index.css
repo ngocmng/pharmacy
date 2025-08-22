@@ -68,13 +68,13 @@ button:focus-visible {
   }
 }
 
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
 table {
   margin: 12px;
+}
+
+.MuiTableHead-root .MuiTableCell-root, .MuiTableFooter-root .MuiTableCell-root {
+  font-weight: bold ;
+  font-size: 1em;
 }
 
 .redAsterisk {

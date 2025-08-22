@@ -42,7 +42,6 @@ async function listHangHoa(res) {
 
         // --- SELECT Query ---
       const rows = await conn.query("SELECT * FROM hang_hoa");
-      console.log("select results", rows);
       res.send(rows);
 
   } catch (err) {

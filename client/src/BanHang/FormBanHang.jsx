@@ -38,7 +38,7 @@ const FormBanHang = () => {
     return <>
     <h1>Bán hàng</h1>
     <Paper
-        sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}
+        sx={{ '& .MuiTextField-root': { m: 1, p: 1 } }}
         elevation={3}
                 
     >
@@ -64,7 +64,7 @@ const FormBanHang = () => {
             />
         </div>
 
-        <div id='thongTinKeDon' fullWidth>
+        <div id='thongTinKeDon'>
             <h4>Thông tin đơn thuốc</h4>
             <TextField
             id='maDonThuoc'
@@ -80,7 +80,7 @@ const FormBanHang = () => {
             onChange={e => setTenBacSi(e.target.value)}
             />
 
-            <TextField fullWidth
+            <TextField
             id='coSoKhamBenh'
             label='Cơ sở khám bệnh'
             value={coSoKhamBenh}
@@ -98,8 +98,6 @@ const FormBanHang = () => {
         <div>
             <PhieuItems lines={items} setLines={setItems}/>
         </div>
-
-        <Button type='reset'>Hủy</Button>
         <Button variant="contained" type="submit">Hoàn thành</Button>
         
     </form>

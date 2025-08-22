@@ -9,7 +9,7 @@ import PhieuItems from '../components/PhieuItems';
 function FormNhapHang() {
     const [supplierId, setSupplier] = useState(1);
     const [maHoaDonNHap, setMaHoaDonNhap] = useState()
-    const [ngayNhap, setNgayNhap] = useState(''); //Ngay tren phieu nhap
+    const [ngayNhap, setNgayNhap] = useState(); //Ngay tren phieu nhap
     const [nhanVienId, setNhanVienId] = useState(1);
 
     const [items, setItems] = useState([]);
@@ -35,52 +35,53 @@ function FormNhapHang() {
     }
     return (
         <>
-            <h1>Thêm phiếu nhập hàng</h1>  
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <TextField
-                        required
-                        id="supplier"
-                        label="Nhà cung cấp"
-                        value={supplierId}
-                        onChange={e => setSupplier(e.target.value)}
-                        />
+        <h2>Thêm phiếu nhập hàng</h2>  
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <TextField
+                    required
+                    id="supplier"
+                    label="Nhà cung cấp"
+                    value={supplierId}
+                    onChange={e => setSupplier(e.target.value)}
+                    />
 
-                        <TextField
-                        id="maHoaDonNhap"
-                        label="Mã hóa đơn nhập hàng"
-                        value={maHoaDonNHap}
-                        onChange={e => setMaHoaDonNhap(e.target.value)}
-                        />
-                    
-                        <TextField
-                        required
-                        id="ngay"
-                        label="Ngày nhập"
-                        slotProps={{
-                            inputLabel: {shrink: true}
-                        }}
-                        type="date"
-                        value={ngayNhap}
-                        onChange={e => setNgayNhap(e.target.value)}
-                        />
+                    <TextField
+                    id="maHoaDonNhap"
+                    label="Mã hóa đơn nhập hàng"
+                    value={maHoaDonNHap}
+                    onChange={e => setMaHoaDonNhap(e.target.value)}
+                    />
+                
+                    <TextField
+                    required
+                    id="ngay"
+                    label="Ngày nhập"
+                    slotProps={{
+                        inputLabel: {shrink: true}
+                    }}
+                    type="date"
+                    value={ngayNhap}
+                    onChange={e => setNgayNhap(e.target.value)}
+                    />
 
-                        <TextField
-                        id='nhanVienId'
-                        label='Mã nhân viên'
-                        value={nhanVienId}
-                        disabled
-                        />   
-                    </div>
-                    
-                    <div>
-                        <PhieuItems lines={items} setLines={setItems}/>
-                    </div>
-                  
-                    <Button>Hủy</Button>
-                    <Button variant="contained" type="submit">Hoàn thành</Button>
-                </form>
-            <button onClick={() => {console.log(items)}}>See what in lines ha</button>
+                    <TextField
+                    id='nhanVienId'
+                    label='Mã nhân viên'
+                    value={nhanVienId}
+                    disabled
+                    />   
+                </div>
+                
+                <div>
+                    <PhieuItems lines={items} setLines={setItems}/>
+                </div>
+                
+                <Button >Hủy</Button>
+                <Button variant="contained" type="submit">Hoàn thành</Button>
+            </form>
+        <button  className='bold-text' onClick={() => {console.log(items)}}>See what in lines ha</button>
+
         </>
         
     )

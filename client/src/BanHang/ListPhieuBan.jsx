@@ -59,7 +59,7 @@ function ListPhieuBan() {
                     {phieuBans.map((phieu) => 
                         <TableRow key={phieu.id}>
                             <TableCell>{phieu.id}</TableCell>
-                            <TableCell>{phieu.ngay_ban}</TableCell>
+                            <TableCell>{new Date(phieu.ngay_ban).toLocaleDateString()}</TableCell>
                             <TableCell>{phieu.is_ke_don ? "Bán theo đơn" : "Bán không theo đơn"}</TableCell>
                             <TableCell>{phieu.nhan_vien_id}</TableCell>
                             <TableCell>{phieu.tong_tien}</TableCell>

@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
-import PhieuItems from '../components/PhieuItems';
+import PhieuItems from '../components/form/PhieuItems';
 
 function FormNhapHang() {
     const [supplierId, setSupplier] = useState(1);
@@ -17,7 +17,15 @@ function FormNhapHang() {
     
     const handleSubmit = async(event) => {
         event.preventDefault();
-        const response = await fetch("http://localhost:3000/api/nhaphang",
+        let valid = true;
+        items.forEach((item) => {
+            if (!item.soLuong || !item.donGiaNhap) {
+                alert("Số lượng và đơn giá phải khác 0");
+                valid = false;
+            }
+        })
+        if (valid) {
+            const response = await fetch("http://localhost:3000/api/nhaphang",
             {
                 method: "POST",
                 body: JSON.stringify({supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items}),
@@ -25,13 +33,16 @@ function FormNhapHang() {
                     "Content-Type": "application/json",
                 }
             }
-        );
-        const data = await response.json();
-        if (data.success) {
-            alert("Ghi nhận phiếu nhập hàng thành công")
-        } else {
-            alert("ko thành công: " + data.message);
+            );
+            const data = await response.json();
+            if (data.success) {
+                alert("Ghi nhận phiếu nhập hàng thành công")
+            } else {
+                alert("ko thành công: " + data.message);
+            }
         }
+
+        
     }
     return (
         <>

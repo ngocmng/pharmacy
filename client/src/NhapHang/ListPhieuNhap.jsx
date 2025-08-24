@@ -51,7 +51,7 @@ function ListPhieuNhap() {
                     {phieuNhaps.map((phieu) => 
                         <TableRow key={phieu.id}>
                             <TableCell>{phieu.id}</TableCell>
-                            <TableCell>{phieu.ngay_nhap}</TableCell>
+                            <TableCell>{new Date(phieu.ngay_nhap).toLocaleDateString()}</TableCell>
                             <TableCell>{phieu.nha_cung_cap}</TableCell>
                             <TableCell>{phieu.nhan_vien_id}</TableCell>
                             <TableCell>{phieu.tong_tien}</TableCell>

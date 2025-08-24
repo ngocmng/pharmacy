@@ -23,14 +23,23 @@ nhaphangRoutes.post('/', async(req, res) => {
         const phieuNhapId = phieuNhapLastId_result[0]['LAST_INSERT_ID()'];
         console.log("phieu nhap id: ", phieuNhapId);
 
-        items.forEach(async(item) => {
-            //INSERT vào lo_hang
+        items.forEach(async(item) => {//INSERT vào lo_hang va phieu nhap items
             
-            const result = await conn.query("INSERT INTO lo_hang (hang_hoa_id, lot_number, han_su_dung, so_luong) VALUES (?, ?, ?, ?)",
-                [item.maHH, item.lotNo, item.hsd, item.soLuong] );
-            const result2 = await conn.query("INSERT INTO phieu_nhap_hang_items (phieu_nhap_hang_id, hang_hoa_id, lot_number, so_luong, gia_nhap) VALUES (?, ?, ?, ?, ?)",
-                [phieuNhapId, item.maHH, item.lotNo, item.soLuong, item.donGiaNhap]);
-            console.log("Insert result in phieu nhap items: ", result2);
+            try {
+                //INSERT vào lo_hang
+                const result = await conn.query("INSERT INTO lo_hang (hang_hoa_id, lot_number, han_su_dung) VALUES (?, ?, ?)",
+                    [item.maHH, item.lotNo, item.hsd] );
+                console.log("Insert result in lo_hang: ", result);
+
+                //INSERT vào phieu nhap items    
+                const result2 = await conn.query("INSERT INTO phieu_nhap_hang_items (phieu_nhap_hang_id, hang_hoa_id, lot_number, so_luong, gia_nhap) VALUES (?, ?, ?, ?, ?)",
+                    [phieuNhapId, item.maHH, item.lotNo, item.soLuong, item.donGiaNhap]);
+                console.log("Insert result in phieu nhap items: ", result2);
+            } catch (err) {
+                console.error("Lỗi khi insert từng dòng:", err);
+                throw err;
+            }
+            
         });
         
         console.log("Đã thêm phiếu nhập hàng thành công")
@@ -42,6 +51,25 @@ nhaphangRoutes.post('/', async(req, res) => {
         if (conn) {
             conn.release(); // Release connection back to the pool
             console.log("Connection released to pool.");
+        }
+    }
+})
+
+// Danh sách phiếu nhập hàng
+nhaphangRoutes.get('/', async (req, res) => {
+    let conn;
+    try {
+        conn = await db.pool.getConnection();
+          // --- SELECT Query ---
+        const rows = await conn.query("SELECT * FROM phieu_nhap_hang");
+        res.send(rows);
+    } catch (error) {
+        console.error("Database operation error: ", err);
+        
+    } finally {
+        if (conn) {
+            conn.release(); // Release connection back to the pool
+            //console.log("Connection released to pool.");
         }
     }
 })

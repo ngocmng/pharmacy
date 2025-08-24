@@ -26,4 +26,23 @@ banhangRoutes.post('/', async(req, res) => {
     }
 })
 
+//Danh sách phiếu bán hàng
+banhangRoutes.get('/', async (req, res) => {
+    let conn;
+        try {
+            conn = await db.pool.getConnection();
+              // --- SELECT Query ---
+            const rows = await conn.query("SELECT * FROM phieu_ban_hang");
+            res.send(rows);
+        } catch (error) {
+            console.error("Database operation error: ", err);
+
+        } finally {
+            if (conn) {
+                conn.release(); // Release connection back to the pool
+                //console.log("Connection released to pool.");
+            }
+        }
+})
+
 export default banhangRoutes

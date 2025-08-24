@@ -24,7 +24,7 @@ function PhieuItems({ lines, setLines }) {
         return sum + line.soLuong * line.donGiaNhap;
     }, 0);
 
-    /*useEffect(() => {
+    useEffect(() => {
         const fetchHangHoas = async() => {
             try {
                 const response = await fetch("http://localhost:3000/api/hanghoa")
@@ -38,7 +38,7 @@ function PhieuItems({ lines, setLines }) {
         }
 
         fetchHangHoas();
-    }, [])*/
+    }, [])
 
     /*function addLine () {
         setLines([...lines, {id: Date.now(), soLuong: 0, donGiaNhap: 0, tenHH: ''}]);

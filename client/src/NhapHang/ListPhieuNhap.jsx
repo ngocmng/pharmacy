@@ -3,11 +3,34 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import FormNhapHang from './FormNhapHang';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {Table, TableBody, TableHead, TableCell, TableRow, TableContainer} from '@mui/material';
 
 function ListPhieuNhap() {
+    const [phieuNhaps, setPhieuNhaps] = useState([
+        {id: "PN001", ngay_nhap: "23/08/2022", nha_cung_cap: "Traphaco", nhan_vien_id: 1, tong_tien: 350000}, 
+        {id: "PN002", ngay_nhap: "23/08/2025", nha_cung_cap: "GSK", nhan_vien_id: 1, tong_tien: 100000}, 
+    ]);
+
+    useEffect(() => {
+        const fetchPhieuNhaps = async() => {
+            try {
+                const response = await fetch("http://localhost:3000/api/nhaphang")
+                const data = await response.json();
+                console.log("data: " , data)
+                if (data) {
+                    setPhieuNhaps(data);
+                    console.log("cac phieu nhap hang: ", phieuNhaps);
+                }
+            } catch(error) {
+                console.error("Error fetching phieu nhaps: ", error)    
+            }
+        }
+
+        fetchPhieuNhaps();
+    }, [])
+
     return (
     <>
         <h1>Nhập hàng</h1>
@@ -16,21 +39,28 @@ function ListPhieuNhap() {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>STT</TableCell>
+                        {/*<TableCell>STT</TableCell>*/}
                         <TableCell>Mã phiếu nhập</TableCell>
                         <TableCell>Ngày nhập</TableCell>
                         <TableCell>Nhà cung cấp</TableCell>
+                        <TableCell>Nhân viên</TableCell>
                         <TableCell>Tổng tiền</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>STT</TableCell>
-                        <TableCell>Mã phiếu nhập</TableCell>
-                        <TableCell>Ngày nhập</TableCell>
-                        <TableCell>Nhà cung cấp</TableCell>
-                        <TableCell>Tổng tiền</TableCell>
-                    </TableRow>
+                    {phieuNhaps.map((phieu) => 
+                        <TableRow key={phieu.id}>
+                            <TableCell>{phieu.id}</TableCell>
+                            <TableCell>{phieu.ngay_nhap}</TableCell>
+                            <TableCell>{phieu.nha_cung_cap}</TableCell>
+                            <TableCell>{phieu.nhan_vien_id}</TableCell>
+                            <TableCell>{phieu.tong_tien}</TableCell>
+                            <TableCell>
+                                <Button variant='contained'>Xem chi tiết</Button>
+                                
+                            </TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>

@@ -9,6 +9,7 @@ import FormNhapHang from './NhapHang/FormNhapHang';
 import AddHangHoa from './HangHoa/AddHangHoa';
 import FormBanHang from './BanHang/FormBanHang';
 import ListPhieuNhap from './NhapHang/ListPhieuNhap';
+import ListPhieuBan from './BanHang/ListPhieuBan';
 import { useState } from 'react';
 
 
@@ -24,7 +25,7 @@ function App() {
   } else  if (page == 2) {
     content = <ListPhieuNhap/>
   } else if (page == 3) {
-    content = <FormBanHang/>;
+    content = <ListPhieuBan/>;
   }
 
   return (

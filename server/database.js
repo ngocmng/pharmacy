@@ -7,7 +7,8 @@ const pool = mariadb.createPool({
     password: 'maria12',
     database: 'pharmacy',
     connectionLimit: 5, // Adjust as needed
-    dateStrings: true
+    dateStrings: true,
+    bigIntAsNumber: true
 });
 
 export default Object.freeze({

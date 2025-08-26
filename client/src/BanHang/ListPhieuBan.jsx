@@ -9,6 +9,7 @@ import {Table, TableBody, TableHead, TableCell, TableRow, TableContainer} from '
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import PhieuBanChiTiet from './PhieuBanChiTiet';
 
 
 function ListPhieuBan() {
@@ -17,9 +18,8 @@ function ListPhieuBan() {
         {id: "PB002", ngay_ban: "23/08/2025", is_ke_don: true, nhan_vien_id: 1, tong_tien: 100000}, 
     ]);
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openModal, setOpenModal] = useState(false);
+    const handleClose = () => setOpenModal(false);
 
     useEffect(() => {
         const fetchPhieuBans = async() => {
@@ -39,6 +39,8 @@ function ListPhieuBan() {
         fetchPhieuBans();
     }, [])
 
+    let phieuXem;
+
     return (
     <>
         <h1>Bán hàng</h1>
@@ -52,7 +54,7 @@ function ListPhieuBan() {
                         <TableCell>Ngày bán</TableCell>
                         <TableCell>Loại phiếu</TableCell>
                         <TableCell>Nhân viên</TableCell>
-                        <TableCell>Tổng tiền</TableCell>
+                        {/*<TableCell>Tổng tiền</TableCell>*/}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -61,10 +63,16 @@ function ListPhieuBan() {
                             <TableCell>{phieu.id}</TableCell>
                             <TableCell>{new Date(phieu.ngay_ban).toLocaleDateString()}</TableCell>
                             <TableCell>{phieu.is_ke_don ? "Bán theo đơn" : "Bán không theo đơn"}</TableCell>
-                            <TableCell>{phieu.nhan_vien_id}</TableCell>
-                            <TableCell>{phieu.tong_tien}</TableCell>
+                            <TableCell>{phieu.ten_nhan_vien}</TableCell>
+                            {/*<TableCell>{phieu.tong_tien}</TableCell>*/}
                             <TableCell>
-                                <Button variant='contained' onClick={handleOpen} >Xem chi tiết</Button>
+                                <Button variant='contained' 
+                                        onClick={() => {
+                                            setOpenModal(phieu.id);
+                                            phieuXem = phieu;
+                                        }} >
+                                    Xem chi tiết
+                                </Button>
                             </TableCell>
                         </TableRow>
                     )}
@@ -73,19 +81,11 @@ function ListPhieuBan() {
         </TableContainer>
 
         <Modal
-        open={open}
+        open={openModal}
         onClose={handleClose}
-        
-      >
-        <Box>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+        >
+            <PhieuBanChiTiet />
+        </Modal>
     </>)
 }
 

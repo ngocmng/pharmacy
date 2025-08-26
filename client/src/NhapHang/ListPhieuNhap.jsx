@@ -1,17 +1,19 @@
-import * as React from 'react';
-
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import FormNhapHang from './FormNhapHang';
+import Paper from '@mui/material/Paper';
 import { useState, useEffect } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {Table, TableBody, TableHead, TableCell, TableRow, TableContainer} from '@mui/material';
+import Modal from '@mui/material/Modal';
+import PhieuNhapChiTiet from './PhieuNhapChiTiet';
+import FormNhapHang from './FormNhapHang';
 
 function ListPhieuNhap() {
     const [phieuNhaps, setPhieuNhaps] = useState([
         {id: "PN001", ngay_nhap: "23/08/2022", nha_cung_cap: "Traphaco", nhan_vien_id: 1, tong_tien: 350000}, 
         {id: "PN002", ngay_nhap: "23/08/2025", nha_cung_cap: "GSK", nhan_vien_id: 1, tong_tien: 100000}, 
     ]);
+
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         const fetchPhieuNhaps = async() => {
@@ -31,6 +33,8 @@ function ListPhieuNhap() {
         fetchPhieuNhaps();
     }, [])
 
+    let phieuXem;
+    
     return (
     <>
         <h1>Nhập hàng</h1>
@@ -44,7 +48,7 @@ function ListPhieuNhap() {
                         <TableCell>Ngày nhập</TableCell>
                         <TableCell>Nhà cung cấp</TableCell>
                         <TableCell>Nhân viên</TableCell>
-                        <TableCell>Tổng tiền</TableCell>
+                        {/*<TableCell>Tổng tiền</TableCell>*/}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -53,17 +57,31 @@ function ListPhieuNhap() {
                             <TableCell>{phieu.id}</TableCell>
                             <TableCell>{new Date(phieu.ngay_nhap).toLocaleDateString()}</TableCell>
                             <TableCell>{phieu.nha_cung_cap}</TableCell>
-                            <TableCell>{phieu.nhan_vien_id}</TableCell>
-                            <TableCell>{phieu.tong_tien}</TableCell>
+                            <TableCell>{phieu.ten_nhan_vien}</TableCell>
+                            {/*<TableCell>{phieu.tong_tien}</TableCell>*/}
                             <TableCell>
-                                <Button variant='contained'>Xem chi tiết</Button>
+                                <Button variant='contained' 
+                                        onClick={() => {
+                                            setOpenModal(phieu.id);
+                                            phieuXem = phieu;
+                                        }}>
+                                    Xem chi tiết
+                                </Button>
                                 
                             </TableCell>
                         </TableRow>
+                        
                     )}
+                    
                 </TableBody>
             </Table>
         </TableContainer>
+        <Modal
+            open={Boolean(openModal)}
+            onClose={() => {setOpenModal(false)}}
+        >
+            <PhieuNhapChiTiet id={openModal} phieu={phieuXem}/>
+        </Modal>
     </>)
 }
 

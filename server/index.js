@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 //import pool from './database.js';
-import hanghoaRoutes from './routes/hanghoa.js';
-import nhaphangRoutes from './routes/nhaphang.js';
-import banhangRoutes from './routes/banhang.js';
+import hanghoaRoutes from './routes/hanghoaRoutes.js';
+import nhaphangRoutes from './routes/nhaphangRoutes.js';
+import banhangRoutes from './routes/banhangRoutes.js';
 
 const app = express();
 app.use(cors());

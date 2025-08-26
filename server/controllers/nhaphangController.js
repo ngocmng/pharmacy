@@ -1,10 +1,8 @@
-import express from 'express';
 import db from '../database.js';
 
-const nhaphangRoutes = express.Router();
 
 //Thêm phiếu nhập hàng
-nhaphangRoutes.post('/', async(req, res) => {
+const addNhapHang = async(req, res) => {
     console.log(req.body);
     const { supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items } = req.body;
     let conn;
@@ -53,15 +51,21 @@ nhaphangRoutes.post('/', async(req, res) => {
             console.log("Connection released to pool.");
         }
     }
-})
+}
 
 // Danh sách phiếu nhập hàng
-nhaphangRoutes.get('/', async (req, res) => {
+const getListPhieuNhap = async (req, res) => {
     let conn;
     try {
         conn = await db.pool.getConnection();
           // --- SELECT Query ---
-        const rows = await conn.query("SELECT * FROM phieu_nhap_hang");
+        const rows = await conn.query(`
+            SELECT phieu_nhap_hang.*, nhan_vien.ten AS ten_nhan_vien, nha_cung_cap.ten AS nha_cung_cap
+            FROM phieu_nhap_hang
+            INNER JOIN nhan_vien ON nhan_vien_id = nhan_vien.id
+            INNER JOIN nha_cung_cap ON nha_cung_cap_id = nha_cung_cap.id`
+            
+        );
         res.send(rows);
     } catch (error) {
         console.error("Database operation error: ", err);
@@ -72,6 +76,42 @@ nhaphangRoutes.get('/', async (req, res) => {
             //console.log("Connection released to pool.");
         }
     }
-})
+}
 
-export default nhaphangRoutes
+//Chi tiết 1 phiếu nhập hàng
+const getPhieuNhapChiTiet = async (req, res) => {
+    console.log("req.params = ", req.params);
+
+    const {id} = req.params;
+    
+    let conn;
+    try {
+        conn = await db.pool.getConnection();
+          // --- SELECT Query ---
+        const sql = `
+            SELECT phieu_nhap_hang_items.*, (so_luong * gia_nhap) AS thanh_tien, hang_hoa.ten AS ten_hang_hoa
+            FROM phieu_nhap_hang_items 
+            INNER JOIN hang_hoa ON phieu_nhap_hang_items.hang_hoa_id = hang_hoa.id
+            WHERE phieu_nhap_hang_id = ?`
+        const rows = await conn.query(sql, [Number(id)]);
+
+        const [totalRow] = await conn.query(
+            `SELECT SUM(so_luong * gia_nhap) AS total
+            FROM phieu_nhap_hang_items
+            WHERE phieu_nhap_hang_id = ?`,
+            [Number(id)]
+        );
+        const total = totalRow.total
+        console.log("total: ", total);
+        res.json({rows, total});
+    } catch (error) {
+        console.error("Database operation error: ", error);
+    } finally {
+        if (conn) {
+            conn.release(); // Release connection back to the pool
+            //console.log("Connection released to pool.");
+        }
+    }
+}
+
+export { addNhapHang, getListPhieuNhap, getPhieuNhapChiTiet }; 

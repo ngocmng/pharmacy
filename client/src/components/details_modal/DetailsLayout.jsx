@@ -15,9 +15,10 @@ const style = {
 };
 
 function DetailsLayout ({ id, items, total, loaiPhieu }) {
+
     return (
     <Paper sx={style}>
-            <h2>Chi tiết phiếu {loaiPhieu} {id}</h2>
+            <h2>Chi tiết phiếu {loaiPhieu == "ban" ? "bán" : "nhập"} {id}</h2>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -40,7 +41,7 @@ function DetailsLayout ({ id, items, total, loaiPhieu }) {
                             <TableCell>{item.hang_hoa_id}</TableCell>
                             <TableCell>{item.ten_hang_hoa}</TableCell>
                             <TableCell>{item.lot_number}</TableCell>
-                            <TableCell>{item.han_su_dung}</TableCell>
+                            <TableCell>{new Date(item.han_su_dung).toLocaleDateString()}</TableCell>
                             <TableCell>{item.so_luong}</TableCell>
                             <TableCell>{item[`gia_${loaiPhieu}`].toLocaleString()} đ</TableCell>
                             <TableCell>{item.thanh_tien.toLocaleString()} đ</TableCell>

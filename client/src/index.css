@@ -80,3 +80,25 @@ table {
 .redAsterisk {
   color: crimson;
 }
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#maHoaDonNhap, #ngayNhap {
+  width: 300px;
+} 
+
+.flex-container #supplier {
+  width: 500px;
+}
+
+
+
+/*.MuiInputLabel-root.MuiInputLabel-shrink {
+  font-size: 1.2rem
+}
+*/
+

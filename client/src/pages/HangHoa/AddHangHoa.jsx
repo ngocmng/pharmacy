@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState } from 'react';
-import axios from 'axios';
+import { addHH } from '../../api/hanghoaAPI';
 
 function AddHangHoa() {
     const [tenHH, setTenHH] = useState("");
@@ -23,27 +23,14 @@ function AddHangHoa() {
     
     const handleSubmit = async(e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post(
-            "http://localhost:3000/api/hanghoa/add",
-            { tenHH, loaiHH, soDangKy, nhaSanXuat, quyCach, donVi, giaBan }
-            );
-            if (response.data.success) {
-                alert ("da them HH thanh cong! ");
-                setTenHH("");
-                setLoaiHH("");
-                setMessage("");
-                console.log(response.status);
-            } else {
-                setMessage(response.data.message);
-            }
-            
-        } catch (error) {
-            if (error.response) {
-                console.error("Loi khi them HH o response: ", data);
-            } else if (error.request) {
-                alert ("Xay ra loi khi request them hang hoa");
-            } 
+        const data = await addHH(tenHH, loaiHH, soDangKy, nhaSanXuat, quyCach, donVi, giaBan);
+        if (data.success) {
+            alert ("da them HH thanh cong! ");
+            setTenHH("");
+            setLoaiHH("");
+            setMessage("");
+        } else {
+            setMessage(response.data.message);
         }
     }
     return (
@@ -55,8 +42,8 @@ function AddHangHoa() {
                 
             >
                 <form onSubmit={handleSubmit} autoComplete="off" >   
-                    <div>
-                        <TextField
+                    <div className='flex-container'>
+                        <TextField sx={{ minWidth: 600 }}
                         required
                         id="tenHH"
                         label="Tên hàng hóa"
@@ -64,10 +51,10 @@ function AddHangHoa() {
                         onChange={e => setTenHH(e.target.value)}
                         />
                     
-                        <FormControl fullWidth required>
+                        <FormControl required sx={{ minWidth: 300, m: 1 }}>
                             <InputLabel id="loai-HH-label">Loại hàng hóa</InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
+                                labelId="loai-HH-label"
                                 id="loaiHH"
                                 value={loaiHH}
                                 label="Loại hàng hóa"
@@ -78,16 +65,15 @@ function AddHangHoa() {
                                 <MenuItem value="Mỹ phẩm">Mỹ phẩm</MenuItem>
                             </Select>
                         </FormControl>
-                    </div>
-                    <div>
-
+                    
                         <TextField
-                
                         id="soDangKy"
                         label="Số đăng ký"
                         value={soDangKy}
                         onChange={e => setSoDangKy(e.target.value)}
                         />
+                        </div>
+                    <div>
 
                         <TextField fullWidth
                         id="nsx"
@@ -95,9 +81,7 @@ function AddHangHoa() {
                         value={nhaSanXuat}
                         onChange={e => setNhaSanXuat(e.target.value)}
                         />
-                    </div>
-                    <div>
-
+                    
                         <TextField
                         id="quycach"
                         label="Quy cách"

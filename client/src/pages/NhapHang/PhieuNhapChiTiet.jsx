@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import {Table, TableBody, TableHead, TableCell, TableRow, TableContainer, TableFooter} from '@mui/material';
 
 import Paper from '@mui/material/Paper';
-import DetailsLayout from '../components/details_modal/DetailsLayout';
+import DetailsLayout from '../../components/details_modal/DetailsLayout';
+import { getPhieuNhapDetail } from '../../api/nhaphangAPI';
 
 function PhieuNhapChiTiet ({ id, phieu }) {
     
@@ -11,20 +12,12 @@ function PhieuNhapChiTiet ({ id, phieu }) {
 
     useEffect(() => {
         const fetchPhieuNhapChiTiet = async() => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/nhaphang/${id}`)
-                const data = await response.json();
-                console.log(response.status)
+                const data = await getPhieuNhapDetail(id);
                 if (data) {
-                    console.log(data);
                     setItems(data.rows);
                     setTotal(data.total)
-                }
-            } catch(error) {
-                console.error("Error fetching phieu nhaps: ", error)    
-            }
+                } 
         }
-
         fetchPhieuNhapChiTiet();
     }, [])
 

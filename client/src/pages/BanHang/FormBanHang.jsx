@@ -2,7 +2,8 @@ import { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Paper } from "@mui/material";
-import PhieuItems from '../components/form/PhieuItems';
+import PhieuItems from '../../components/form/PhieuItems';
+import { addPhieuBan } from "../../api/banhangAPI";
 
 const FormBanHang = () => {
     const [ngayBan, setNgayBan] = useState();
@@ -17,22 +18,29 @@ const FormBanHang = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const response = await fetch("http://localhost:3000/api/banhang",
-            {
-                method: "POST",
-                body: JSON.stringify({ maDonThuoc, tenBacSi, coSoKhamBenh, tenBenhNhan, ngayBan, nhanVienId }),
-                headers: {
-                    "Content-Type": "application/json",
-                }
+        let valid = true;
+        items.forEach((item) => {
+            if (!item.soLuong || !item.donGiaNhap) {
+                valid = false;
             }
-        );
-        const data = await response.json();
-        if (data.success) {
-            alert("Ghi nhận phiếu bán hàng thành công")
+        })
+
+        if (valid) {
+            try {
+                const data = await addPhieuBan(maDonThuoc, tenBacSi, coSoKhamBenh, tenBenhNhan, ngayBan, nhanVienId, items);
+                if (data.success) {
+                    alert("Ghi nhận phiếu bán hàng thành công")
+                } else {
+                    alert("ko thành công: ");
+                    console.log("err.message: ", data.message);
+                }
+            } catch (error) {
+                console.log("Lỗi khi thêm phiếu bán hàng: ", error);
+            }
         } else {
-            alert("ko thành công: ");
-            console.log("err.message: ", data.message);
+            alert("Số lượng và đơn giá phải khác 0");
         }
+        
     }
 
     return <>

@@ -4,7 +4,8 @@ import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
-import PhieuItems from '../components/form/PhieuItems';
+import PhieuItems from '../../components/form/PhieuItems';
+import { addPhieuNhap } from '../../api/nhaphangAPI';
 
 function FormNhapHang() {
     const [supplierId, setSupplier] = useState(1);
@@ -20,26 +21,18 @@ function FormNhapHang() {
         let valid = true;
         items.forEach((item) => {
             if (!item.soLuong || !item.donGiaNhap) {
-                alert("Số lượng và đơn giá phải khác 0");
                 valid = false;
             }
         })
         if (valid) {
-            const response = await fetch("http://localhost:3000/api/nhaphang",
-            {
-                method: "POST",
-                body: JSON.stringify({supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items}),
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            }
-            );
-            const data = await response.json();
+            const data = await addNhapHang(supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items);
             if (data.success) {
                 alert("Ghi nhận phiếu nhập hàng thành công")
             } else {
                 alert("ko thành công: " + data.message);
             }
+        } else {
+            alert("Số lượng và đơn giá phải khác 0");
         }
 
         
@@ -48,7 +41,7 @@ function FormNhapHang() {
         <>
         <h2>Thêm phiếu nhập hàng</h2>  
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className='flex-container'>
                     <TextField
                     required
                     id="supplier"
@@ -66,7 +59,7 @@ function FormNhapHang() {
                 
                     <TextField
                     required
-                    id="ngay"
+                    id="ngayNhap"
                     label="Ngày nhập"
                     slotProps={{
                         inputLabel: {shrink: true}
@@ -76,12 +69,12 @@ function FormNhapHang() {
                     onChange={e => setNgayNhap(e.target.value)}
                     />
 
-                    <TextField
+                    {/*<TextField
                     id='nhanVienId'
                     label='Mã nhân viên'
                     value={nhanVienId}
                     disabled
-                    />   
+                    />  */} 
                 </div>
                 
                 <div>
@@ -91,7 +84,6 @@ function FormNhapHang() {
                 <Button >Hủy</Button>
                 <Button variant="contained" type="submit">Hoàn thành</Button>
             </form>
-        <button  className='bold-text' onClick={() => {console.log(items)}}>See what in lines ha</button>
 
         </>
         

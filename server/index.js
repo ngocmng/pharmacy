@@ -4,6 +4,8 @@ import cors from 'cors';
 import hanghoaRoutes from './routes/hanghoaRoutes.js';
 import nhaphangRoutes from './routes/nhaphangRoutes.js';
 import banhangRoutes from './routes/banhangRoutes.js';
+import tonkhoRoutes from './routes/tonkhoRoutes.js';
+import supplierRoutes from './routes/supplierRoutes.js';
 
 const app = express();
 app.use(cors());
@@ -14,6 +16,10 @@ app.use('/api/hanghoa', hanghoaRoutes);
 app.use('/api/nhaphang', nhaphangRoutes);
 
 app.use('/api/banhang', banhangRoutes);
+
+app.use('/api/tonkho', tonkhoRoutes)
+
+app.use('/api/nhacungcap', supplierRoutes)
 
 app.post('/api/login/', (req, res) => {
   console.log(req.body);

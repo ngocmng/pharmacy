@@ -1,5 +1,6 @@
-import db from '../database.js';
 
+import { addLoHangMoi, tangSoLuongTon, upsertLoHang } from './lohangController.js';
+import db from '../../database.js';
 
 //Thêm phiếu nhập hàng
 const addNhapHang = async(req, res) => {
@@ -14,19 +15,17 @@ const addNhapHang = async(req, res) => {
         );
         console.log("Insert result in phieu_nhap_hang: ", pnh);
 
-        
 
-        //INSERT vào phieu_nhap_hang_items
+        //INSERT vào phieu_nhap_hang_items va lo_hang
         const phieuNhapLastId_result = await conn.query("SELECT LAST_INSERT_ID() FROM phieu_nhap_hang");
         const phieuNhapId = phieuNhapLastId_result[0]['LAST_INSERT_ID()'];
         console.log("phieu nhap id: ", phieuNhapId);
 
         items.forEach(async(item) => {//INSERT vào lo_hang va phieu nhap items
-            
             try {
                 //INSERT vào lo_hang
-                const result = await conn.query("INSERT INTO lo_hang (hang_hoa_id, lot_number, han_su_dung) VALUES (?, ?, ?)",
-                    [item.maHH, item.lotNo, item.hsd] );
+                
+                const result = await upsertLoHang(conn, item.maHH, item.lotNo, item.hsd, item.soLuong);
                 console.log("Insert result in lo_hang: ", result);
 
                 //INSERT vào phieu nhap items    
@@ -68,7 +67,7 @@ const getListPhieuNhap = async (req, res) => {
         );
         res.send(rows);
     } catch (error) {
-        console.error("Database operation error: ", err);
+        console.error("Database operation error: ", error.message);
         
     } finally {
         if (conn) {
@@ -89,9 +88,12 @@ const getPhieuNhapChiTiet = async (req, res) => {
         conn = await db.pool.getConnection();
           // --- SELECT Query ---
         const sql = `
-            SELECT phieu_nhap_hang_items.*, (so_luong * gia_nhap) AS thanh_tien, hang_hoa.ten AS ten_hang_hoa
+            SELECT phieu_nhap_hang_items.*, (so_luong * gia_nhap) AS thanh_tien, 
+                hang_hoa.ten AS ten_hang_hoa, lo_hang.han_su_dung
             FROM phieu_nhap_hang_items 
             INNER JOIN hang_hoa ON phieu_nhap_hang_items.hang_hoa_id = hang_hoa.id
+            INNER JOIN lo_hang ON phieu_nhap_hang_items.hang_hoa_id = lo_hang.hang_hoa_id 
+                        AND phieu_nhap_hang_items.lot_number = lo_hang.lot_number
             WHERE phieu_nhap_hang_id = ?`
         const rows = await conn.query(sql, [Number(id)]);
 

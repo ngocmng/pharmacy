@@ -3,15 +3,14 @@
 //import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './Auth/Login';
-import ListHangHoa from './HangHoa/ListHangHoa';
-import FormNhapHang from './NhapHang/FormNhapHang';
-import AddHangHoa from './HangHoa/AddHangHoa';
-import FormBanHang from './BanHang/FormBanHang';
-import ListPhieuNhap from './NhapHang/ListPhieuNhap';
-import ListPhieuBan from './BanHang/ListPhieuBan';
+import Login from './pages/Auth/Login';
+import ListHangHoa from './pages/HangHoa/ListHangHoa';
+import ListPhieuNhap from './pages/NhapHang/ListPhieuNhap'
+import ListPhieuBan from './pages/BanHang/ListPhieuBan';
 import { useState } from 'react';
-
+import FormSupplier from './pages/supplier/FormSupplier';
+import ListSupplier from './pages/supplier/ListSupplier';
+import TonKho from './pages/TonKho/TonKho';
 
 function App() {
   const [isLogin, setLogin] = useState(true);
@@ -21,11 +20,15 @@ function App() {
   if (page == 0) {
     content = <h1>Đây là trang chủ</h1>;
   } else if (page == 1) {
-    content = <AddHangHoa/>
+    content = <ListHangHoa/>
   } else  if (page == 2) {
     content = <ListPhieuNhap/>
   } else if (page == 3) {
     content = <ListPhieuBan/>;
+  } else if (page == 4) {
+    content = <><FormSupplier/> <ListSupplier/></>
+  } else if (page == 5) {
+    content = <TonKho/>
   }
 
   return (
@@ -38,6 +41,8 @@ function App() {
       <button onClick={() => {setPage(1)}}>Quản lý hàng hóa</button>
       <button onClick={() => {setPage(2)}}>Nhập hàng</button>
       <button onClick={() => {setPage(3)}}>Bán hàng</button>
+      <button onClick={() => {setPage(4)}}>Nhà cung cấp</button>
+      <button onClick={() => {setPage(5)}}>Hàng tồn kho</button>
     </div> 
     {content}
     </div>

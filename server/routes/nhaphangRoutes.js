@@ -1,6 +1,6 @@
 import express from 'express';
 import db from '../database.js';
-import { addNhapHang, getListPhieuNhap, getPhieuNhapChiTiet } from '../controllers/nhaphangController.js';
+import { addNhapHang, getListPhieuNhap, getPhieuNhapChiTiet } from '../controllers/quan_ly_kho/nhaphangController.js';
 
 const nhaphangRoutes = express.Router();
 

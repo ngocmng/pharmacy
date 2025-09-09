@@ -1,5 +1,5 @@
 import express from 'express';
-import { addBanHang, getListPhieuBan, getPhieuBanChiTiet } from '../controllers/banhangController.js';
+import { addBanHang, getListPhieuBan, getPhieuBanChiTiet } from '../controllers/quan_ly_kho/banhangController.js';
 
 const banhangRoutes = express.Router();
 

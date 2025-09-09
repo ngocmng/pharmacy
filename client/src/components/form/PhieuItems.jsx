@@ -7,16 +7,11 @@ import MenuItem from '@mui/material/MenuItem';
 import {TableContainer, Table, TableBody, TableHead, TableFooter, TableRow, TableCell } from '@mui/material';
 import { useEffect, useState } from 'react';
 import PhieuItemLine from './PhieuItemLine';
-
+import { getHH } from '../../api/hanghoaAPI';
 
 
 function PhieuItems({ lines, setLines }) {
-    const [hanghoas, setHangHoas] = useState([
-        {id: 1, ten: "mèo", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
-        {id: 2, ten: "chó", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
-        {id: 3, ten: "mèo con", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
-        {id: 4, ten: "chó con", loai_hang_hoa: "anti-depressant", don_vi_tinh: 'con'},
-    ]);
+    const [hanghoas, setHangHoas] = useState([]);
     
     const total = lines.reduce((sum, line) => {
         //const soLuong = Number(line.soLuong) || 0;
@@ -25,19 +20,17 @@ function PhieuItems({ lines, setLines }) {
     }, 0);
 
     useEffect(() => {
-        const fetchHangHoas = async() => {
-            try {
-                const response = await fetch("http://localhost:3000/api/hanghoa")
-                const data = await response.json();
-                console.log("data: " ,data)
+        async function fetchHangHoas() {
+            const data = await getHH();
+            if (data) {
                 setHangHoas(data);
-                console.log("hanghoas: ", hanghoas);
-            } catch(error) {
-                console.error("Error fetching hang hoa: ", error);
             }
+            
+            console.log("hanghoas: ", hanghoas);
         }
 
         fetchHangHoas();
+        
     }, [])
 
     /*function addLine () {

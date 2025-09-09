@@ -11,7 +11,7 @@ const addHangHoa = async (req, res) => {
         // --- INSERT Query ---
       const result = await conn.query("INSERT INTO hang_hoa (ten, loai_hang_hoa, so_dang_ky, quy_cach, don_vi_tinh, nha_san_xuat, gia_ban) VALUES (?, ?, ?, ?, ?, ?, ?)", 
         [obj.tenHH, obj.loaiHH, obj.soDangKy, obj.quyCach, obj.donVi, obj.nhaSanXuat, obj.giaBan]);
-      console.log("insert results: ", result);
+      console.log("insert HH results: ", result);
       res.json({success: true});
 
   } catch (err) {
@@ -26,7 +26,7 @@ const addHangHoa = async (req, res) => {
 }
 
 // Danh sách hàng hóa
-async function listHangHoa(res) {
+async function listHangHoa(req, res) {
     let conn;
     try {
     conn = await db.pool.getConnection(); // Get a connection from the pool
@@ -46,4 +46,13 @@ async function listHangHoa(res) {
     }
 }
 
-export { addHangHoa, listHangHoa }
+// Sua hang hoa
+async function editHangHoa (req, res) {
+  
+}
+
+async function deleteHangHoa (req, res) {
+
+}
+
+export { addHangHoa, listHangHoa, editHangHoa, deleteHangHoa }

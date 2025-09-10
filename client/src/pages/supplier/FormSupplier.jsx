@@ -9,6 +9,7 @@ export default function FormSupplier () {
     const [ten, setTen] = useState("");
     const [email, setEmail] = useState("");
     const [maSoThue, setMaSoThue] = useState("");
+    //const [soDienThoai, setSoDienThoai] = useState("");
 
 
     const handleSubmit = async (e) => {

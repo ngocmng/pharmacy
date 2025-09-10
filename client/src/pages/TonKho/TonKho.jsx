@@ -23,23 +23,32 @@ const TonKho = () => {
         <Table>
             <TableHead>
              <TableRow>
-                <TableCell>STT</TableCell>
+                <TableCell>Mã HH</TableCell>
                 <TableCell>Hàng hóa</TableCell>
                 <TableCell>Số lô</TableCell>
                 <TableCell>Hạn dùng</TableCell>
-                <TableCell>Số lượng tồn</TableCell>
+                <TableCell>Tồn</TableCell>
              </TableRow>
             </TableHead>
 
             <TableBody>
                 {rows.map((row, index) => 
+                    <>
                     <TableRow key={index}>
-                        <TableCell>{index+1}</TableCell>
-                        <TableCell>{row.ten_hang_hoa}</TableCell>
-                        <TableCell>{row.lot_number}</TableCell>
-                        <TableCell>{new Date(row.han_su_dung).toLocaleDateString()}</TableCell>
-                        <TableCell>{row.so_luong_ton} ({row.don_vi_tinh})</TableCell>
+                        <TableCell>{row.id}</TableCell>
+                        <TableCell colSpan={3}>{row.ten_hang_hoa}</TableCell>
+                        <TableCell>{row.tong_ton} ({row.don_vi_tinh})</TableCell>
                     </TableRow>
+                    {row.lo_hang_chi_tiet.map(loHang => 
+                        <TableRow>
+                            <TableCell colSpan={2}></TableCell>
+                            <TableCell>{loHang.lot_number}</TableCell>
+                            <TableCell>{loHang.han_su_dung}</TableCell>
+                            <TableCell>{loHang.so_luong_ton} ({row.don_vi_tinh})</TableCell>
+                    </TableRow>
+                    )}
+                    
+                    </>
                 )}
             </TableBody>
         </Table>

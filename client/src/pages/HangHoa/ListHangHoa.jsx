@@ -12,24 +12,22 @@ function ListHangHoa () {
   const [hanghoas, setHangHoas] = useState([]);
 
   useEffect(() => {
-          async function fetchHangHoas() {
-              const data = await getHH();
-              if (data) {
-                  setHangHoas(data);
-              }
-              
-              console.log("hanghoas: ", hanghoas);
-          }
-  
-          fetchHangHoas();
-          
-      }, [])
+    async function fetchHangHoas() {
+        const data = await getHH();
+        if (data) {
+            setHangHoas(data);
+        }
+        
+       // console.log("hanghoas: ", hanghoas);
+    }
+    fetchHangHoas();      
+  }, [])
 
   return (
     <>
       <h1>Danh mục hàng hóa</h1>
       <Button variant='contained'>Thêm mới hàng hóa</Button>
-      <TableContainer component={Paper}>
+      
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
@@ -55,7 +53,7 @@ function ListHangHoa () {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+     
 
       <AddHangHoa />
     </>

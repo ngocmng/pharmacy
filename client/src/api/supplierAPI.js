@@ -15,9 +15,21 @@ const addSupplier = async(ten, email, maSoThue) => {
         
     } catch (error) {
         console.log("Lỗi khi thêm nhà cung cấp", error.message)
-        throw error;
-    }
-    
+    }  
 }
 
-export {addSupplier}
+const getSuppliers = async() => {
+    try {
+        const response = await fetch("http://localhost:3000/api/nhacungcap")
+        const data = await response.json();
+        if (response.ok) {
+            return data;
+        } else {
+            throw Error(data.message);
+        }
+    } catch (error) {
+        alert (error.message);
+    }
+}
+
+export { addSupplier, getSuppliers}

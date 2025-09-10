@@ -20,12 +20,22 @@ const addLoHangMoi = async(conn, hang_hoa_id, lot_number, han_su_dung, so_luong)
     return result;
 }
 
-const tangSoLuongTon = async(conn, hang_hoa_id, lot_number, so_luong) => {
-
+const tangSoLuongTon = async(conn, hang_hoa_id, lot_number, so_luong_tang) => {
+    const result = await conn.query(
+        `UPDATE lo_hang
+         SET so_luong_ton = so_luong_ton + ?
+         WHERE hang_hoa_id = ? AND lot_number = ?`,
+         [so_luong_tang, hang_hoa_id, lot_number] );
+    return result;
 }
 
-const giamSoLuongTon = async(conn, hang_hoa_id, lot_number, so_luong) => {
-
+const giamSoLuongTon = async(conn, hang_hoa_id, lot_number, so_luong_giam) => {
+    const result = await conn.query(
+        `UPDATE lo_hang
+         SET so_luong_ton = so_luong_ton - ?
+         WHERE hang_hoa_id = ? AND lot_number = ? AND so_luong_ton >= ?`,
+         [so_luong_giam, hang_hoa_id, lot_number, so_luong_giam] );
+    return result;
 }
 
 const getListLoHang = async (req, res) => {

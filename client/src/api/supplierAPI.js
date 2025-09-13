@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const addSupplier = async(ten, email, maSoThue) => {
     try {
         const response = await fetch("http://localhost:3000/api/nhacungcap",

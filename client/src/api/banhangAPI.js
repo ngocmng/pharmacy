@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 async function addPhieuBan (maDonThuoc, tenBacSi, coSoKhamBenh, tenBenhNhan, ngayBan, nhanVienId, items) {
     const response = await fetch("http://localhost:3000/api/banhang",
         {

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import loginApi from '../../api/loginAPI';
 
 function Login({setLogin}) {
     const [username, setUsername] = React.useState('');
@@ -12,14 +13,7 @@ function Login({setLogin}) {
     const handleSubmit = async(event) => {
       event.preventDefault();
       try {
-        const response = await fetch('http://localhost:3000/api/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username, password }),
-          });
-        console.log("response header: "+ response.headers.get("content-type"));
-        const data = await response.json();
-        console.log(response.status);
+        const data = await loginApi(username, password)
         if (data) {
           setLogin(true);
         } else {

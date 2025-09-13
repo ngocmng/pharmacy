@@ -2,14 +2,22 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { addSupplier } from '../../api/supplierAPI';
 
-export default function FormSupplier () {
+export default function FormSupplier ({ supplier }) {
     const [ten, setTen] = useState("");
     const [email, setEmail] = useState("");
     const [maSoThue, setMaSoThue] = useState("");
-    //const [soDienThoai, setSoDienThoai] = useState("");
+    const [soDienThoai, setSoDienThoai] = useState("");
+
+    useEffect(() => {
+        if (supplier) {
+            setTen(supplier.ten)
+            setEmail(supplier.email)
+            setMaSoThue(supplier.ma_so_thue)
+        }
+    }, [])
 
 
     const handleSubmit = async (e) => {
@@ -32,7 +40,7 @@ export default function FormSupplier () {
 
     return (
         <>
-        <h1>Thêm nhà cung cấp</h1>
+        { !supplier && <h1>Thêm nhà cung cấp</h1>}
         <form onSubmit={handleSubmit}>
             <div>
             <TextField sx={{minWidth: 500}}

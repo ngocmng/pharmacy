@@ -1,7 +1,7 @@
 //import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
-import './App.css'
+//import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './pages/Auth/Login';
 import ListHangHoa from './pages/HangHoa/ListHangHoa';
@@ -26,7 +26,7 @@ function App() {
   } else if (page == 3) {
     content = <ListPhieuBan/>;
   } else if (page == 4) {
-    content = <><FormSupplier/> <ListSupplier/></>
+    content = <> <ListSupplier/></>
   } else if (page == 5) {
     content = <TonKho/>
   }

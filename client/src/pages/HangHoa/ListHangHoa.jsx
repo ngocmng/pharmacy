@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import AddHangHoa from './AddHangHoa';
 import { getHH } from '../../api/hanghoaAPI';
 import {useState, useEffect} from 'react';
+import { ButtonSua, ButtonXoa } from '../../components/buttons';
 
 function ListHangHoa () {
   const [hanghoas, setHangHoas] = useState([]);
@@ -49,6 +50,10 @@ function ListHangHoa () {
                 <TableCell>{row.loai_hang_hoa}</TableCell>
                 <TableCell>{row.so_dang_ky}</TableCell>
                 <TableCell>{row.nha_san_xuat}</TableCell>
+                <TableCell>
+                    <ButtonSua />
+                    <ButtonXoa />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const getTonKho = async() => {
     try {
         const response = await fetch("http://localhost:3000/api/tonkho")

@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 async function addPhieuNhap(supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items) {
     try {
         const response = await fetch("http://localhost:3000/api/nhaphang",

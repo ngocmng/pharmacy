@@ -22,8 +22,7 @@ function ListPhieuNhap() {
                 const data = await getListPhieuNhap();
                 if (data) {
                     setPhieuNhaps(data);
-                }
-            
+                }     
         }
 
         fetchPhieuNhaps();

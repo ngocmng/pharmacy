@@ -30,8 +30,12 @@ const getSuppliers = async() => {
             throw Error(data.message);
         }
     } catch (error) {
-        alert (error.message);
+        console.error (error.message);
     }
 }
 
-export { addSupplier, getSuppliers}
+const deleteSuppliers = async() => {
+
+}
+
+export { addSupplier, getSuppliers, deleteSupplier}

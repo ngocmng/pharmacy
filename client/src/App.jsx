@@ -2,7 +2,7 @@
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 //import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import Login from './pages/Auth/Login';
 import ListHangHoa from './pages/HangHoa/ListHangHoa';
 import ListPhieuNhap from './pages/NhapHang/ListPhieuNhap'
@@ -11,42 +11,34 @@ import { useState } from 'react';
 import FormSupplier from './pages/supplier/FormSupplier';
 import ListSupplier from './pages/supplier/ListSupplier';
 import TonKho from './pages/TonKho/TonKho';
+import Home from "./pages/Home";
+import Layout from "./components/layout/Layout";
 
 function App() {
-  const [isLogin, setLogin] = useState(true);
-  const [page, setPage] = useState(0);
-
-  let content;
-  if (page == 0) {
-    content = <h1>Đây là trang chủ</h1>;
-  } else if (page == 1) {
-    content = <ListHangHoa/>
-  } else  if (page == 2) {
-    content = <ListPhieuNhap/>
-  } else if (page == 3) {
-    content = <ListPhieuBan/>;
-  } else if (page == 4) {
-    content = <> <ListSupplier/></>
-  } else if (page == 5) {
-    content = <TonKho/>
-  }
+  const [isLogin, setLogin] = useState(1);
 
   return (
-    <>
-    
+    <> 
+    <Routes>
+      <Route path='/' element={<Layout/>}>
+        <Route path="/" element={<Home />}/>
+        <Route path="/hanghoa" element={<ListHangHoa />}/>
+        <Route path="/nhaphang" element={<ListPhieuNhap />}/>
+        <Route path='/banhang' element={<ListPhieuBan/>}/>
+        <Route path="/nhacungcap" element={<ListSupplier />}/>
+        <Route path="/tonkho" element={<TonKho/>}/>
+      </Route>
+    </Routes>  
+
     {isLogin ? 
     <div>
-    <div className='navlink'>
-      <button onClick={() => {setPage(0)}}>Trang chủ</button>
-      <button onClick={() => {setPage(1)}}>Quản lý hàng hóa</button>
-      <button onClick={() => {setPage(2)}}>Nhập hàng</button>
-      <button onClick={() => {setPage(3)}}>Bán hàng</button>
-      <button onClick={() => {setPage(4)}}>Nhà cung cấp</button>
-      <button onClick={() => {setPage(5)}}>Hàng tồn kho</button>
-    </div> 
-    {content}
+    
     </div>
+
     : <Login setLogin={setLogin}/>}
+
+    
+
     </>
     
     

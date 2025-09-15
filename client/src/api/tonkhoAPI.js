@@ -12,7 +12,6 @@ const getTonKho = async() => {
         }
     } catch(error) {
         console.error("Error fetching hàng tồn kho: ", error.message);
-        alert(error.message);
     }
 }
 

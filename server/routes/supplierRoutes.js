@@ -1,5 +1,5 @@
 import express from "express";
-import { addSupplier, getListSupplier } from "../controllers/supplierController.js";
+import { addSupplier, getListSupplier, editSupplier, deleteSupplier } from "../controllers/supplierController.js";
 
 const supplierRoutes = express.Router()
 
@@ -7,5 +7,9 @@ const supplierRoutes = express.Router()
 supplierRoutes.post('/', addSupplier)
 
 supplierRoutes.get('/', getListSupplier)
+
+supplierRoutes.put('/:id', editSupplier)
+
+supplierRoutes.delete('/:id', deleteSupplier)
 
 export default supplierRoutes;

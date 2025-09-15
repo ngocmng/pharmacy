@@ -34,8 +34,22 @@ const getSuppliers = async() => {
     }
 }
 
-const deleteSuppliers = async() => {
+const editSupplier = async(id) => {
 
 }
 
-export { addSupplier, getSuppliers, deleteSupplier}
+const deleteSupplier = async(id) => {
+    try {
+        const response = await axios.delete(`http://localhost:3000/api/nhacungcap/${id}`)
+        const data = await response.json();
+        if (response.ok) {
+            return data;
+        } else {
+            throw Error(data.message);
+        }
+    } catch (error) {
+        console.error (error.message);
+    }
+}
+
+export { addSupplier, getSuppliers, editSupplier, deleteSupplier}

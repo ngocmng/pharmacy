@@ -46,8 +46,12 @@ async function getListSupplier (req, res) {
     }
 }
 
+async function editSupplier (req, res) {
+
+}
+
 async function deleteSupplier (req, res) {
 
 }
 
-export { addSupplier, getListSupplier, deleteSupplier }
+export { addSupplier, getListSupplier, editSupplier, deleteSupplier }

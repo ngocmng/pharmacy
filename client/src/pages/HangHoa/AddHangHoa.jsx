@@ -23,6 +23,7 @@ function AddHangHoa() {
     
     const handleSubmit = async(e) => {
         e.preventDefault();
+        console.log(e.target)
         const data = await addHH(tenHH, loaiHH, soDangKy, nhaSanXuat, quyCach, donVi, giaBan);
         if (data.success) {
             alert ("da them HH thanh cong! ");
@@ -48,7 +49,7 @@ function AddHangHoa() {
                         id="tenHH"
                         label="Tên hàng hóa"
                         value={tenHH}
-                        onChange={e => setTenHH(e.target.value)}
+                        onChange={e => {setTenHH(e.target.value); console.log(e.target)}}
                         />
                     
                         <FormControl required sx={{ minWidth: 300, m: 1 }}>

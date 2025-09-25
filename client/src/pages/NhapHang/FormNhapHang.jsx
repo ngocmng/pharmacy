@@ -6,16 +6,31 @@ import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
 import PhieuItems from '../../components/form/PhieuItems';
 import { addPhieuNhap } from '../../api/nhaphangAPI';
+import Autocomplete from '@mui/material/Autocomplete';
+import { getSuppliers } from '../../api/supplierAPI';
 
 function FormNhapHang() {
-    const [supplierId, setSupplier] = useState(1);
+    const [supplier, setSupplier] = useState(null);
     const [maHoaDonNHap, setMaHoaDonNhap] = useState()
     const [ngayNhap, setNgayNhap] = useState(); //Ngay tren phieu nhap
     const [nhanVienId, setNhanVienId] = useState(1);
 
     const [items, setItems] = useState([]);
 
-    
+    const [supplierOptions, setSupplierOptions] = useState([])
+    //const [value, setValue] = useState(options[0]);
+    const [supplierInputValue, setSupplierInputValue] = useState();
+
+    useEffect (() => {
+        const fetchSuppliers = async () => {
+            const data = await getSuppliers();
+            if (data) {
+                setSupplierOptions(data)
+            }
+        }
+        fetchSuppliers();
+    }, [])
+
     const handleSubmit = async(event) => {
         event.preventDefault();
         let valid = true;
@@ -25,7 +40,7 @@ function FormNhapHang() {
             }
         })
         if (valid) {
-            const data = await addNhapHang(supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items);
+            const data = await addPhieuNhap(supplier.id, maHoaDonNHap, ngayNhap, nhanVienId, items);
             if (data.success) {
                 alert("Ghi nhận phiếu nhập hàng thành công")
             } else {
@@ -40,14 +55,26 @@ function FormNhapHang() {
     return (
         <>
         <h2>Thêm phiếu nhập hàng</h2>  
+        
             <form onSubmit={handleSubmit}>
                 <div className='flex-container'>
-                    <TextField
+                    {/*<TextField
                     required
                     id="supplier"
                     label="Nhà cung cấp"
                     value={supplierId}
                     onChange={e => setSupplier(e.target.value)}
+                    />*/}
+                    <Autocomplete
+                    id="supplier"
+                    options={supplierOptions}
+                    getOptionLabel={(option) => option.ten}
+                    renderInput={(params) => <TextField {...params} label="Nhà cung cấp" required/>}
+                    sx={{ width: 300 }}
+                    value={supplier}
+                    onChange={(event, newValue) => {
+                        setSupplier(newValue);
+                    }}
                     />
 
                     <TextField

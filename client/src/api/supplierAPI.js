@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const addSupplier = async(ten, email, maSoThue) => {
+const addSupplier = async(formData) => {
     try {
         const response = await fetch("http://localhost:3000/api/nhacungcap",
         {
             method: "POST",
-            body: JSON.stringify({ten, email, maSoThue}),
+            body: JSON.stringify(formData),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -17,6 +17,7 @@ const addSupplier = async(ten, email, maSoThue) => {
         
     } catch (error) {
         console.log("Lỗi khi thêm nhà cung cấp", error.message)
+        throw error;
     }  
 }
 
@@ -34,21 +35,25 @@ const getSuppliers = async() => {
     }
 }
 
-const editSupplier = async(id) => {
-
+const editSupplier = async(id, ten, email, maSoThue, soDienThoai) => {
+    try {
+        const response = await axios.put(`http://localhost:3000/api/nhacungcap/${id}`,
+            {ten, email, maSoThue, soDienThoai}
+        )
+        return response.data
+    } catch (error) {
+        console.error (error.message)
+        return error.response.data
+    }
 }
 
 const deleteSupplier = async(id) => {
     try {
         const response = await axios.delete(`http://localhost:3000/api/nhacungcap/${id}`)
-        const data = await response.json();
-        if (response.ok) {
-            return data;
-        } else {
-            throw Error(data.message);
-        }
+        return response.data
     } catch (error) {
-        console.error (error.message);
+        console.error (error.message)
+        return error.response.data
     }
 }
 

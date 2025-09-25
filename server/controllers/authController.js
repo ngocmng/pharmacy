@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import db from '../database'
+import db from '../database.js'
 
 const login = async (req, res) => {
     let conn;

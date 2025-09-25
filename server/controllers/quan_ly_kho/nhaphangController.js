@@ -5,13 +5,17 @@ import db from '../../database.js';
 //Thêm phiếu nhập hàng
 const addNhapHang = async(req, res) => {
     console.log(req.body);
-    const { supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items } = req.body;
+    const { supplierId, maHoaDonNHap, ngayNhap, nhanVienId, items, total } = req.body;
+    const tongTien = total ?? items.reduce((sum, item) => sum + Number(item.soLuong) * Number(item.donGiaNhap), 0);
+    console.log("Tổng tiền: ", tongTien);
     let conn;
     try {
         conn = await db.pool.getConnection();
         //INSERT vào phieu_nhap_hang
-        const pnh = await conn.query("INSERT INTO phieu_nhap_hang (nha_cung_cap_id, ma_hoa_don_nhap, ngay_nhap, nhan_vien_id) VALUES (?, ?, ?, ?)",
-            [supplierId, maHoaDonNHap, ngayNhap, nhanVienId]
+        const pnh = await conn.query(`
+            INSERT INTO phieu_nhap_hang (nha_cung_cap_id, ma_hoa_don_nhap, ngay_nhap, nhan_vien_id, tong_tien) 
+            VALUES (?, ?, ?, ?, ?)`,
+            [supplierId, maHoaDonNHap, ngayNhap, nhanVienId, tongTien]
         );
         console.log("Insert result in phieu_nhap_hang: ", pnh);
 

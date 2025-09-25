@@ -3,70 +3,55 @@ import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
-import { addSupplier } from '../../api/supplierAPI';
 
-export default function FormSupplier ({ supplier }) {
-    const [ten, setTen] = useState("");
-    const [email, setEmail] = useState("");
-    const [maSoThue, setMaSoThue] = useState("");
-    const [soDienThoai, setSoDienThoai] = useState("");
-
-    useEffect(() => {
-        if (supplier) {
-            setTen(supplier.ten)
-            setEmail(supplier.email)
-            setMaSoThue(supplier.ma_so_thue)
-        }
-    }, [])
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const responseData = await addSupplier(ten, email, maSoThue);
-            if (responseData.success) {
-                alert("đã thêm nhà cung cấp thành công")
-                setTen("");
-                setEmail("");
-                setMaSoThue("");
-            } else {
-                alert(responseData.message);
-            }
-        } catch (error) {
-            alert("đã xảy ra lỗi: ", error.message)
-        }
-        
+export default function FormSupplier ({ handleSubmit, formData, setFormData }) {
+    function handleChange(e) {
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        })
     }
 
     return (
         <>
-        { !supplier && <h1>Thêm nhà cung cấp</h1>}
-        <form onSubmit={handleSubmit}>
+        
+        <form onSubmit={(e) => handleSubmit(e)}>
             <div>
             <TextField sx={{minWidth: 500}}
             required
             id="tenNhaCungCap"
+            name='ten'
             label="Tên"
-            value={ten}
-            onChange={(e) => setTen(e.target.value)}
+            value={formData.ten}
+            onChange={handleChange}
             />
 
             <TextField
             id="emailNhaCungCap"
             label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name='email'
+            value={formData.email}
+            onChange={handleChange}
             />
 
             <TextField
             id="maSoThueNCC"
             label="Mã số thuế"
-            value={maSoThue}
-            onChange={(e) => setMaSoThue(e.target.value)}
+            name='ma_so_thue'
+            value={formData.ma_so_thue}
+            onChange={handleChange}
+            />
+
+            <TextField
+            id="sdtNCC"
+            label="số điện thoại"
+            name='so_dien_thoai'
+            value={formData.so_dien_thoai}
+            onChange={handleChange}
             />
             </div>
             <Button variant='contained' type='submit'>Hoàn thành</Button>
-            <p>{ten.mail}</p>
         </form>
         </>
     )
